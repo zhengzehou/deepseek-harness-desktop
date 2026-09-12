@@ -25,7 +25,7 @@ export interface DshPlugin {
   version: string
   description: string
   /** 仓库地址（repository.url / homepage） */
-  repo_url: string
+  repoUrl: string
   /** 是否在 dsh.profile.bundles 中（启动时自动加载） */
   bundled: boolean
   /** 是否在禁用清单（disabled-plugins.json）中，独立于 bundled */

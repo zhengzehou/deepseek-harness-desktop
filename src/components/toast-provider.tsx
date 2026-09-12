@@ -35,7 +35,7 @@ export function ToastProvider(props: ToastProviderProps) {
           key={placement}
           placement={placement}
           queue={activeQueues[placement]}
-          className="[&_[data-frontmost=true]_[data-slot=toast-close]]:pointer-events-auto [&_[data-frontmost=true]_[data-slot=toast-close]]:opacity-100"
+          className="z-[60] [&_[data-slot=toast-title]]:text-base [&_[data-slot=toast-title]]:font-semibold [&_[data-frontmost=true]_[data-slot=toast-close]]:pointer-events-auto [&_[data-frontmost=true]_[data-slot=toast-close]]:opacity-100"
         >
           {props.custom
             ? ({ toast: item }) => {
@@ -60,7 +60,7 @@ export function ToastProvider(props: ToastProviderProps) {
                   </Toast>
                 )
               }
-            : null}
+            : undefined}
         </Toast.Provider>
       ))}
       {props.children}

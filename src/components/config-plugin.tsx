@@ -74,7 +74,7 @@ export function ConfigPlugin(props: ConfigPluginProps) {
   async function copyPluginRepoUrl(url: string): Promise<void> {
     try {
       await writeClipboardText(url)
-      toast(t('messages.copy_success'))
+      toast(t('messages.copy_success'), { placement: 'top' })
     }
     catch (err) {
       console.error('[ConfigPlugin] copy repository URL failed:', err)
@@ -696,7 +696,7 @@ export function ConfigPlugin(props: ConfigPluginProps) {
                         <Label className="min-w-0 truncate text-sm font-medium text-ink">
                           {plugin.name}
                         </Label>
-                        <If cond={plugin.repo_url !== ''}>
+                        <If cond={plugin.repoUrl !== ''}>
                           <Tooltip delay={0}>
                             <Button
                               isIconOnly
@@ -705,7 +705,7 @@ export function ConfigPlugin(props: ConfigPluginProps) {
                               className="size-6 shrink-0 rounded-md text-muted hover:text-accent"
                               aria-label={t('buttons.copy')}
                               onPress={() => {
-                                void copyPluginRepoUrl(plugin.repo_url)
+                                void copyPluginRepoUrl(plugin.repoUrl)
                               }}
                             >
                               <Copy className="size-3.5" />
