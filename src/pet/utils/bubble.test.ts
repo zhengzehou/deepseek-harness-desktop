@@ -5,7 +5,7 @@
  * 文案、taskCopy 句式（对齐 dsh-dafeiyu：正在/继续、动作动词、默认处理「…」）。
  */
 import { describe, expect, it } from 'vitest'
-import { activityCopy, seedNumber, sessionTitle, statusCopy, taskCopy, toolActivityGroup, UNTITLED_SESSION_TITLE } from './bubble-copy'
+import { activityCopy, seedNumber, sessionTitle, statusCopy, taskCopy, toolActivityGroup, UNTITLED_SESSION_TITLE } from './bubble'
 
 describe('seedNumber', () => {
   it('numeric strings resolve to the absolute truncated integer', () => {

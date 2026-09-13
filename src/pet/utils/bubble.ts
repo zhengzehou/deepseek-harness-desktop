@@ -8,7 +8,7 @@
  */
 
 /** 桌宠窗口无 i18n 基础设施，就地按窗口语言取单语文案（与 pet.tsx 保留文案一致）。 */
-const IS_ZH = (typeof document !== 'undefined' ? document.documentElement.lang || navigator.language : 'zh-CN')
+export const IS_ZH = (typeof document !== 'undefined' ? document.documentElement.lang || navigator.language : 'zh-CN')
   .toLowerCase()
   .startsWith('zh')
 
