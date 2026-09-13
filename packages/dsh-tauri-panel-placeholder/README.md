@@ -10,7 +10,7 @@
 
 宿主按核心版本自动择路，本插件无需感知：
 
-- ≥ `0.1.5-rc.2`：宿主代注册官方 `sidebar.panellist`（入口行）+ `main`（内容），
+- ≥ `0.1.5-rc.1`：宿主代注册官方 `sidebar.panellist`（入口行）+ `main`（内容），
   面板成为**官方全局面板**，选中态由 `ctx.layout.selectPanel` 统一派发；
 - ≤ `0.1.2-rc.1`：宿主回退私有 `sidebar.panel.action` 槽 + 会话区替换。
 

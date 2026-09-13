@@ -5,11 +5,11 @@
 ## 能力
 
 - **整槽替换 sidebar**（priority -1 shadow 官方 `ui-sidebar`）：紧凑 logoRow + 面板区（新会话 + 官方全局面板行 + 第三方功能项）+ 官方子槽透传（`<SlotOutlet>`，无 renderer 补丁时整体降级不注册）。
-- **官方全局面板入口**（0.1.5-rc.2 新增）：克隆侧栏渲染官方 `sidebar.panellist` 清单（`components/panel-row.tsx` + `service/panel-list.ts` 投影服务），按官方协议注册的面板因此有完整入口（每行只订阅自己的选中态、`order` 升序、thunk 文案跟随语言）。旧核心 slots 服务无投影能力时清单整块不渲染。
+- **官方全局面板入口**（0.1.5-rc.1 起提供）：克隆侧栏渲染官方 `sidebar.panellist` 清单（`components/panel-row.tsx` + `service/panel-list.ts` 投影服务），按官方协议注册的面板因此有完整入口（每行只订阅自己的选中态、`order` 升序、thunk 文案跟随语言）。旧核心 slots 服务无投影能力时清单整块不渲染。
 - **面板注册**（推荐）：`panel.protocol.registerPanel(entry)` 一次性注册；宿主按核心择路——新核心代注册官方 `sidebar.panellist` + `main` 全局面板，旧核心回退私有槽 + 会话区替换。
-- **内容区替换**：面板内容承载按核心能力三形态择路——≤`0.1.2-rc.1` 的 `conversation` 单槽 / `0.1.5-rc.1` 的 `main` keyed `conversation` cell（priority -1 shadow）/ ≥`0.1.5-rc.2` 的 `main` `spec.id` cell + `ctx.layout.selectPanel`（与官方全局面板共用选中态）；`panel.protocol` 提供 `ActionItem` / `renderPanelContent` / `closePanelContent` 兼容面。
-- **内容宽度拖拽**：内容列左右对称 `data-width-handle` 手柄（pointer capture + rAF 节流 + 外向 2× 位移），偏好持久化 `localStorage['dsh.conversation.contentWidth']`，与官方共用同一 CSS 变量协议（`--dsh-chat-content-width` / `--dsh-chat-user-width` / `--dsh-conversation-column-width`），rc.2 / alpha 双版本兼容、自给自足发布。
-- **协议可选能力**（方案 C）：`setPanelWidth` / `resetPanelWidth` / `getPanelWidth`；右侧栏按核心能力分别提供 `openDetails` / `closeDetails`（≤`0.1.2-rc.1` 的 details 列）与 `openRightPanel` / `closeRightPanel`（≥`0.1.5-rc.2` 的 rightbar，报告式），消费方 `?.()` 探测调用。
+- **内容区替换**：面板内容承载按核心能力择路——`≥0.1.5-rc.1` 注册 `main` 的 `spec.id` cell + `ctx.layout.selectPanel`（与官方全局面板共用选中态）；`≤0.1.2-rc.1` 走 `conversation` 单槽 priority -1 shadow。`panel.protocol` 提供 `ActionItem` / `renderPanelContent` / `closePanelContent` 兼容面。
+- **内容宽度拖拽**：内容列左右对称 `data-width-handle` 手柄（pointer capture + rAF 节流 + 外向 2× 位移），偏好持久化 `localStorage['dsh.conversation.contentWidth']`，与官方共用同一 CSS 变量协议（`--dsh-chat-content-width` / `--dsh-chat-user-width` / `--dsh-conversation-column-width`），rc.x / alpha 双版本兼容、自给自足发布。
+- **协议可选能力**（方案 C）：`setPanelWidth` / `resetPanelWidth` / `getPanelWidth`；右侧栏按核心能力分别提供 `openDetails` / `closeDetails`（≤`0.1.2-rc.1` 的 details 列）与 `openRightPanel` / `closeRightPanel`（≥`0.1.5-rc.1` 的 rightbar，报告式），消费方 `?.()` 探测调用。
 
 ## 面板协议
 

@@ -6,7 +6,7 @@
  *     ReflectService，官方 runtime 同款用法 ctx.reflect.provide("sessions", this)）；
  *   - `registerPanel(entry)`：**推荐入口**。核心能力探测后择路（见
  *     utils/official-panels.ts）：
- *       ≥0.1.5-rc.2 → 代注册官方 `sidebar.panellist`（图标行）+ `main`（内容），
+ *       ≥0.1.5-rc.1 → 代注册官方 `sidebar.panellist`（图标行）+ `main`（内容），
  *         该面板成为官方全局面板，与官方/第三方按官方协议注册者同权；
  *       ≤0.1.2-rc.1 → 回退私有 `sidebar.panel.action` 槽 + 会话区替换。
  *   - `renderPanelContent(spec)`：第三方直接调 ActionItem 时的旧入口。官方核心上
@@ -86,7 +86,7 @@ function registerOfficialPanel(
  * 协议方法：既有三方法原样；`registerPanel` 为推荐入口（见上）；`setPanelWidth` /
  * `resetPanelWidth` / `getPanelWidth` 委托宽度控制器（始终提供——控制器内部有
  * 能力探测降级，消费方 `?.()` 探测调用）；右侧栏按 `ctx.layout` 实际能力探测后
- * 提供（0.1.2-rc.1 的 `openDetails/closeDetails`、0.1.5-rc.2 的
+ * 提供（0.1.2-rc.1 的 `openDetails/closeDetails`、0.1.5-rc.1 的
  * `openRightbar/closeRightbar` 各自映射到对应协议字段）。
  * @param ctx - 客户端根上下文。
  */

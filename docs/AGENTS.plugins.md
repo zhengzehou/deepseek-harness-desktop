@@ -266,7 +266,7 @@ ctx.slots.register(
 - renderer 补丁追加的导出（如 `@deepseek-ai/dsh-client-ui-renderer` 的 `SlotOutlet`）由仓库根 `types/slot-outlet.d.ts` 提供 ambient 类型；消费方必须先 `typeof SlotOutlet === 'function'` 探测再使用。
 - **核心版本相关的槽位差异收敛在宿主，不散落到消费插件**：官方面板入口协议随核心演进
   （≤`0.1.2-rc.1` 的 `conversation`/`details` 单槽 → `0.1.5-rc.1` 的 `main` keyed 槽 →
-  `0.1.5-rc.2` 的 `sidebar.panellist` + `main` 全局面板）。面板类插件一律经
+  `0.1.5-rc.1` 的 `sidebar.panellist` + `main` 全局面板）。面板类插件一律经
   `panel.protocol.registerPanel` 注册，由 `dsh-tauri-panel` 按 `ctx.layout.selectPanel`
   等能力探测择路；消费插件不得自己写死槽名或断言核心版本。契约见
   `packages/dsh-tauri-panel/PROTOCOL.md`。

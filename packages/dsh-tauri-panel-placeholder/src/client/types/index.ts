@@ -63,9 +63,9 @@ export interface PanelProtocol {
   openDetails?: () => void
   /** 透传 ctx.layout.closeDetails：关闭右侧 details 列。（可选，同上。） */
   closeDetails?: () => void
-  /** ≥0.1.5-rc.2：报告右侧栏占不占 track / 是否全屏。（可选，同上。） */
+  /** ≥0.1.5-rc.1：报告右侧栏占不占 track / 是否全屏。（可选，同上。） */
   openRightPanel?: (track: boolean, fullscreen: boolean) => void
-  /** ≥0.1.5-rc.2：报告右侧栏隐藏。（可选，同上。） */
+  /** ≥0.1.5-rc.1：报告右侧栏隐藏。（可选，同上。） */
   closeRightPanel?: () => void
 }
 

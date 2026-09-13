@@ -190,7 +190,7 @@ describe('旧核心：conversation 单槽 + main keyed 槽双候选（0.1.5 回�
   })
 })
 
-describe('官方核心：main key = spec.id + selectPanel（0.1.5-rc.2）', () => {
+describe('官方核心：main key = spec.id + selectPanel（0.1.5-rc.1）', () => {
   it('open 只注册 main 的 spec.id cell，并选中它（不再 shadow conversation）', () => {
     const slots = createSlotsStub(true)
     const controller = createPanelConversationController()

@@ -9,7 +9,7 @@ export interface PanelInfo {
 
 /**
  * 框架注入的标准 prop `usePanelInfo`（ownerProps/standardProps 之外的那一层）。
- * 0.1.5-rc.2 起布局经 `ctx.slots.provideRoot({ hooks: { panelInfo } })` 提供，
+ * 0.1.5-rc.1 起布局经 `ctx.slots.provideRoot({ hooks: { panelInfo } })` 提供，
  * 由 slot 运行期按 `standardHookPropName('panelInfo')` 合成到所有条目 props 上；
  * 旧核心没有这个 seat，消费方必须可选探测。
  */
@@ -93,7 +93,7 @@ export interface PanelContentSpec {
 /**
  * 一次性注册一个面板（宿主负责按核心版本择路）。
  *
- * 新核心（≥0.1.5-rc.2）：宿主代注册 `sidebar.panellist`（图标行）+ `main`（内容），
+ * 新核心（≥0.1.5-rc.1）：宿主代注册 `sidebar.panellist`（图标行）+ `main`（内容），
  * 于是该面板成为**官方全局面板**——`ctx.layout.selectPanel(id)` 可选中、选中态经
  * `usePanelInfo` 统一可读，和官方/第三方按官方协议注册的面板完全同权。
  *
@@ -141,11 +141,11 @@ export interface PanelProtocol {
   /** 透传 ctx.layout.closeDetails：关闭右侧 details 列。（可选，同上。） */
   closeDetails?: () => void
   /**
-   * ≥0.1.5-rc.2 的右侧栏：报告占用 track / 是否全屏。
+   * ≥0.1.5-rc.1 的右侧栏：报告占用 track / 是否全屏。
    * 语义与 `openDetails` 不同（报告式而非开关式），故独立命名。
    */
   openRightPanel?: (track: boolean, fullscreen: boolean) => void
-  /** ≥0.1.5-rc.2：报告右侧栏隐藏。 */
+  /** ≥0.1.5-rc.1：报告右侧栏隐藏。 */
   closeRightPanel?: () => void
 }
 

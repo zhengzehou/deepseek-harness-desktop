@@ -12,13 +12,14 @@ import sidebarStyle from './sidebar.cssr'
  * components/sidebar.tsx — sidebar 槽整槽替换的克隆组件（priority -1 shadow 官方
  * ui-sidebar）；安装器见 register/sidebar.ts。
  *
- * 结构为官方 SidebarRoot（dsh-client-ui-sidebar 0.1.5-rc.2）的克隆，改动点：
+ * 结构为官方 SidebarRoot（dsh-client-ui-sidebar 0.1.5-rc.1 / rc.2，左侧边栏能力集
+ * 一致）的克隆，改动点：
  *   - logoRow 高度 60px → 32px、底部间距 8px → 4px（需求①②）；
  *   - 「新会话」按钮从 logoRow 下方移入**面板区**（需求③），样式镜像官方
  *     ui-sidebar 的 New Session 按钮（elevated-fill 白底 + 12px 圆角；
  *     独立类自给自足，不挂 menu-item，避免与面板区条目样式互相覆盖）；
  *   - 面板区 = 新会话菜单项 + **官方全局面板行**（`sidebar.panellist`，
- *     0.1.5-rc.2 新增；见 components/panel-row.tsx）+ 私有协议功能项
+ *     0.1.5-rc.1 起提供；见 components/panel-row.tsx）+ 私有协议功能项
  *     （槽 `sidebar.panel.action`，list/root，本条目 children 声明，协议⑤，
  *     见 PROTOCOL.md）。
  *
@@ -44,7 +45,7 @@ export function SidebarRootClone({ collapsed, width, startSession, toggleSidebar
   const [settled, setSettled] = useState(false)
   useMountStyle(sidebarStyle, SIDEBAR_STYLE_ID)
   // 面板行的 `.dshp-panel__menu-item`（行 + 图标 + 文案）定义在 action-item.cssr，
-  // 历史上只由 PanelActionItem 组件挂载。0.1.5-rc.2 起面板改由官方
+  // 历史上只由 PanelActionItem 组件挂载。0.1.5-rc.1 起面板改由官方
   // `sidebar.panellist` + `main` 承载，克隆侧栏**自己**渲染这些行
   // （components/panel-row.tsx），再没人挂这份样式就会退化成浏览器默认按钮外观。
   // 因此由克隆侧栏统一挂一份（mountStyle 引用计数幂等，与 PanelActionItem 的挂载

@@ -8,12 +8,12 @@ export const PANEL_PROTOCOL_SERVICE = 'panel.protocol'
  * 私有面板区槽（本插件声明，非官方）：新会话项下方、workspace 浏览器上方。
  * `list` / `root`，条目用 `panel.protocol.ActionItem` 组装。
  *
- * 0.1.5-rc.2 起官方提供了等价且更完整的 `sidebar.panellist`，本槽降级为
+ * 0.1.5-rc.1 起官方提供了等价且更完整的 `sidebar.panellist`，本槽降级为
  * **兼容/私有协议**：旧核心主机、以及直接调 `ActionItem` 的存量第三方插件继续可用。
  */
 export const PANEL_ACTION_SLOT = 'sidebar.panel.action'
 /**
- * 官方「全局面板」清单槽（≥0.1.5-rc.2）：`list` / `root`。
+ * 官方「全局面板」清单槽（≥0.1.5-rc.1）：`list` / `root`。
  *
  * 由官方 `ui-sidebar` 条目声明——本插件以 priority -1 shadow 了该条目，但
  * children 声明仍然有效（与 `sidebar.workspaces` / `sidebar.settings` 同表同语义），

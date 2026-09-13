@@ -1,7 +1,7 @@
 /**
  * register/extension-panel.tsx — 扩展面板的 slot 注册。
  *
- * 走 **官方全局面板协议**（0.1.5-rc.2 起）：`panel.protocol.registerPanel` 由宿主
+ * 走 **官方全局面板协议**（0.1.5-rc.1 起）：`panel.protocol.registerPanel` 由宿主
  * 代注册 `sidebar.panellist`（入口行）+ `main`（内容），选中态由官方
  * `ctx.layout.selectPanel` 统一派发。旧核心宿主内部回退到私有槽 + 会话区替换。
  * 完整契约见 dsh-tauri-panel/PROTOCOL.md。

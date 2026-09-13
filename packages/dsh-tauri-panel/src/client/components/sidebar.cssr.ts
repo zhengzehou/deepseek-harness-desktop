@@ -102,7 +102,7 @@ export default b('panel', {
     paddingLeft: '4px',
     paddingRight: 'calc(var(--dsh-session-list-edge-inset) - var(--dsh-session-list-scrollbar-width) - var(--dsh-session-list-scrollbar-offset))',
   }),
-  // 官方全局面板清单（sidebar.panellist，0.1.5-rc.2）：行本体复用 .dshp-panel__menu-item
+  // 官方全局面板清单（sidebar.panellist，0.1.5-rc.1）：行本体复用 .dshp-panel__menu-item
   // （与私有协议条目同一份视觉），这里只负责把清单本身排成与 panel-area 同节奏的列，
   // 保证「新会话 → 官方全局面板 → 私有功能项」间距一致。
   e('panel-list', {

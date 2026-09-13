@@ -14,7 +14,7 @@ import {
 /**
  * register/panel.tsx — 面板条目的槽位注册。
  *
- * 走 **官方全局面板协议**（0.1.5-rc.2 起）：`panel.protocol.registerPanel` 由宿主
+ * 走 **官方全局面板协议**（0.1.5-rc.1 起）：`panel.protocol.registerPanel` 由宿主
  * 代注册 `sidebar.panellist`（入口行）+ `main`（内容）。本插件因此不再自己关心
  * 槽名，也不再需要「会话区替换」——面板的选中态由官方 `ctx.layout.selectPanel`
  * 统一派发。旧核心宿主由宿主内部回退到私有槽 + 会话区替换，本插件无感。

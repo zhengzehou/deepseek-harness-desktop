@@ -3,7 +3,7 @@
 `dsh-tauri-panel` 客户端插件体（browser half）通过槽位与反射服务向其他客户端插件
 暴露面板能力。本文件是 `panel.protocol` 的完整契约（代码注释多处引用）。
 
-> **接入建议（0.1.5-rc.2 起）**：优先用 `panel.protocol.registerPanel(entry)`
+> **接入建议（0.1.5-rc.1 起）**：优先用 `panel.protocol.registerPanel(entry)`
 > 一次性注册面板——宿主按核心版本择路（新核心 = 官方 `sidebar.panellist` + `main`
 > 全局面板，旧核心 = 私有槽 + 会话区替换）。官方面板协议的直接用法见第 6 节。
 > `ActionItem` + `renderPanelContent` 保留为兼容路径。
@@ -15,7 +15,7 @@
 
 ```ts
 interface PanelProtocol {
-  // —— 推荐入口（0.1.5-rc.2 起）——
+  // —— 推荐入口（0.1.5-rc.1 起）——
   registerPanel?: (entry: PanelRegistration) => () => void
 
   // —— 基础（自 0.1.1-rc.2 起，稳定）——
@@ -51,7 +51,7 @@ interface PanelRegistration {
 
 | 核心 | 宿主行为 |
 | --- | --- |
-| ≥ `0.1.5-rc.2` | 代注册官方 `sidebar.panellist`（图标行）+ `main`（内容）→ 该面板成为**官方全局面板**：`ctx.layout.selectPanel(id)` 可选中、选中态经 `usePanelInfo` 统一可读，与官方/第三方按官方协议注册者同权 |
+| ≥ `0.1.5-rc.1` | 代注册官方 `sidebar.panellist`（图标行）+ `main`（内容）→ 该面板成为**官方全局面板**：`ctx.layout.selectPanel(id)` 可选中、选中态经 `usePanelInfo` 统一可读，与官方/第三方按官方协议注册者同权 |
 | ≤ `0.1.2-rc.1` | 回退：注册私有 `sidebar.panel.action` 条目 + 点击切「会话区替换」（`ActionItem` + `renderPanelContent` 的等价形态） |
 
 返回注销句柄；注销后 `main` 条目消失，布局自己的 `retainMainPanels` 会把选中态
@@ -110,10 +110,10 @@ protocol.openRightPanel?.(true, false)
 | `getPanelWidth()` | 当前内容宽度（含偏好）；无面板挂载时返回偏好或 `null` | 同上 |
 | `openDetails()` | 透传 `ctx.layout.openDetails()`：打开右侧 details 列（**仅 ≤0.1.2-rc.1 核心**） | 宿主按 `ctx.layout` 能力探测提供 |
 | `closeDetails()` | 透传 `ctx.layout.closeDetails()`（同上） | 同上 |
-| `openRightPanel(track, fullscreen)` | 透传 `ctx.layout.openRightbar(track, fullscreen)`：**报告式**——告诉布局右侧栏占不占 track、是否全屏覆盖（**≥0.1.5-rc.2**） | 同上 |
+| `openRightPanel(track, fullscreen)` | 透传 `ctx.layout.openRightbar(track, fullscreen)`：**报告式**——告诉布局右侧栏占不占 track、是否全屏覆盖（**≥0.1.5-rc.1**） | 同上 |
 | `closeRightPanel()` | 透传 `ctx.layout.closeRightbar()`：报告右侧栏隐藏 | 同上 |
 
-> `details` 单槽在 ≥0.1.5-rc.2 已被 `rightbar` 取代，`openDetails` / `closeDetails`
+> `details` 单槽在 ≥0.1.5-rc.1 已被 `rightbar` 取代，`openDetails` / `closeDetails`
 > 在该核心上**不存在**（能力探测自然降级）。新代码请用 `openRightPanel` /
 > `closeRightPanel`，注意它是**报告式**而非开关式：占用方报告自己的表现，布局据此
 > 决定是否让出 track。
@@ -121,7 +121,7 @@ protocol.openRightPanel?.(true, false)
 ## 2. 槽面：`sidebar.panel.action`（私有 / 兼容）
 
 面板区功能项经 `sidebar.panel.action` 槽注册（`list` / `root`，由 `dsh-tauri-panel`
-条目 children 声明，**非官方槽**）。0.1.5-rc.2 起官方提供等价的
+条目 children 声明，**非官方槽**）。0.1.5-rc.1 起官方提供等价的
 `sidebar.panellist`（见第 6 节）；本槽保留给旧核心宿主与直接调 `ActionItem` 的
 存量第三方插件，新代码请优先 `registerPanel` 或官方 `sidebar.panellist`。
 
@@ -172,27 +172,37 @@ ctx.slots.inject('sidebar.panel.action', () => {
 
 ## 4. 降级与兼容
 
-- **rc.2 ↔ alpha 双版本**：全部新增为「可选字段 / 能力探测 / 自实现镜像」，既有
-  方法（`ActionItem` / `renderPanelContent` / `closePanelContent`）与消费方零破坏；
-- **面板内容承载三形态**（宿主按 `ctx.layout.selectPanel` 能力自动择路）：
-  - ≤ `0.1.2-rc.1`：`conversation` 单槽 priority -1 shadow；
-  - `0.1.5-rc.1`：`main` keyed 槽的 `conversation` cell priority -1 shadow；
-  - ≥ `0.1.5-rc.2`：`main` keyed 槽的 **`spec.id` cell**（priority 0）+
-    `ctx.layout.selectPanel(spec.id)`——与官方全局面板共用同一选中态。
-  前两种形态下只注册旧槽会导致 inject 回调永不执行 → 面板内容区不替换，
+> **版本门槛（已核实）**：`0.1.5-rc.1` 与 `0.1.5-rc.2` 在本协议相关能力上**完全一致**——
+> 侧栏壳声明的子槽键集（`brand.mark` / `brand.name` / `workspaces` / `settings` /
+> `footer.action` / **`panellist`**）、渲染侧（`PanelRow` / `panelList` / `usePanelInfo` /
+> `entriesOfSlot`）、布局顶层槽（`sidebar` / `main` / `rightbar` / `shell.overlay`）与
+> `ctx.layout`（`selectPanel` / `openRightbar` / `closeRightbar`，已无
+> `openDetails`/`closeDetails`）逐项相同。因此门槛一律写 **`≥0.1.5-rc.1`**，
+> 不要写成 `≥0.1.5-rc.2`。
+
+- **`0.1.5-rc.x` ↔ alpha 双版本**：全部新增为「可选字段 / 能力探测 / 自实现镜像」，
+  既有方法（`ActionItem` / `renderPanelContent` / `closePanelContent`）与消费方零破坏；
+- **面板内容承载**（宿主按 `ctx.layout.selectPanel` 能力自动择路）：
+  - `≥ 0.1.5-rc.1`：`main` keyed 槽的 **`spec.id` cell**（priority 0）+
+    `ctx.layout.selectPanel(spec.id)`——与官方全局面板共用同一选中态；
+  - `≤ 0.1.2-rc.1`：`conversation` 单槽 priority -1 shadow（`PANEL_VIEW_SEAT_TARGETS`
+    里的 `main` 候选在该核心上槽未声明，只是幂等的保险丝）。
+  旧核心分支下只注册旧槽会导致 inject 回调永不执行 → 面板内容区不替换，
   只剩侧栏条目选中样式；
 - **官方全局面板行**：`sidebar.panellist` 由**被 shadow 的官方 `sidebar` 条目**声明
   （与 `sidebar.workspaces` / `sidebar.settings` 同一张 children 表），克隆侧栏经
   投影服务（`service/panel-list.ts`）读取并渲染。旧核心（≤0.1.2-rc.1）的 slots
   服务没有 `entriesOfSlot` / `subscribe`，投影恒为空表 → 清单整块不渲染；
-- **右侧栏**：`details` 单槽与 `ctx.layout.openDetails/closeDetails` 在 ≥0.1.5-rc.2
-  已被 `rightbar` 与 `openRightbar/closeRightbar` 取代。宿主按实际方法能力探测后
+- **右侧栏**：`details` 单槽与 `ctx.layout.openDetails/closeDetails` 已被 `rightbar`
+  与 `openRightbar/closeRightbar` 取代（`≥0.1.5-rc.1`）。宿主按实际方法能力探测后
   提供 `openDetails`/`closeDetails`（旧核心）或 `openRightPanel`/`closeRightPanel`
   （新核心），两者语义不同（开关式 vs 报告式）；
 - **旧 WebView**（无 ResizeObserver / PointerEvent / rAF）：`supported=false`，
   手柄不渲染、宽度固定（`--dsh-chat-content-width` 回退 `780px`），仅 console.warn 一次；
-- **renderer 补丁缺失**：`<SlotOutlet>` 为 `undefined` → 侧栏面板整体不注册
-  （官方侧栏原样工作），但 `panel.protocol`（面板注册 / 内容区替换）仍可用。
+- **renderer 补丁缺失**：`<SlotOutlet>` 为 `undefined` → 克隆侧栏不注册
+  （官方侧栏原样工作）。官方侧栏自己会渲染 `sidebar.panellist`，因此经
+  `registerPanel` 注册的面板仍然可用；只有私有 `sidebar.panel.action` 协议路径
+  （`ActionItem` + `renderPanelContent`）在此时没有入口。
 
 ## 5. 纯 Web 插件的 DOM 兼容锚点（`PANEL_SIDEBAR_COMPAT_CLASS`）
 
@@ -226,7 +236,7 @@ ctx.slots.inject('sidebar.panel.action', () => {
 纯 Web 插件提供回退。未来若克隆侧栏结构调整，须保持 panel-area 为 root 直接子级
 且 newSession token 位于 logoRow token 容器内（`closest` 链依赖此几何）。
 
-## 6. 官方全局面板协议（`sidebar.panellist` + `main`，≥0.1.5-rc.2）
+## 6. 官方全局面板协议（`sidebar.panellist` + `main`，≥0.1.5-rc.1）
 
 ### 6.1 契约
 
@@ -266,7 +276,7 @@ ctx.layout.selectPanel('my-entry') // null = 回到会话
 
 | | `panel.protocol.registerPanel` | 直接接官方协议 |
 | --- | --- | --- |
-| 核心兼容 | 宿主自动择路（新核心官方 / 旧核心私有槽） | 仅 ≥0.1.5-rc.2 |
+| 核心兼容 | 宿主自动择路（新核心官方 / 旧核心私有槽） | 仅 ≥0.1.5-rc.1 |
 | 注册者 | 宿主（`registrant` = 面板 id） | 插件自己 |
 | 选中态 | 官方 `panelInfo.activePanelId` | 同 |
 | 适合 | 需要同时支持旧核心的插件 | 只面向新核心的插件 |
